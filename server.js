@@ -2,7 +2,8 @@
 var express = require('express'),
     app     = express(),
     morgan  = require('morgan');
-    
+    fs      = require('fs');
+
 Object.assign=require('object-assign')
 
 app.engine('html', require('ejs').renderFile);
@@ -107,6 +108,14 @@ app.get('/pagecount', function (req, res) {
   } else {
     res.send('{ pageCount: -1 }');
   }
+});
+
+app.get('/swagger', function (req, res) {
+  fs.readFile('./swagger.json', 'utf-8', function(err, data) {
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.write(data);
+    res.end();
+  })
 });
 
 // error handling
