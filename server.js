@@ -111,7 +111,7 @@ app.get('/pagecount', function (req, res) {
 });
 
 app.get('/swagger', function (req, res) {
-  fs.readFile('./swagger.json', 'utf-8', function(err, data) {
+  fs.readFile('views/swagger.json', 'utf-8', function(err, data) {
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.write(data);
     res.end();
