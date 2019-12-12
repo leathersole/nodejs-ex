@@ -115,6 +115,11 @@ app.get('/sleep', function (req, res) {
   },60000);
 });
 
+app.get('/504', function (req, res) {
+  res.writeHead(504, {'Content-Type': 'text/plain'});
+  res.end();
+});
+
 // error handling
 app.use(function (err, req, res, next) {
   console.error(err.stack);
