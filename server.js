@@ -3,6 +3,28 @@ var express = require('express'),
   app = express(),
   morgan = require('morgan');
 
+// swagger definitions ---------------
+var swaggerJSDoc = require('swagger-jsdoc');
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+var options = {
+  swaggerDefinition: {
+      info: {
+          title: 'Hello World',
+          version: '1.0.0.'
+      },
+  },
+  apis: ['./server.js'],
+};
+
+var swaggerSpec = swaggerJSDoc(options);
+
+// swagger definitions ---------------
+
 Object.assign = require('object-assign')
 
 app.engine('html', require('ejs').renderFile);
@@ -118,6 +140,37 @@ app.get('/sleep', function (req, res) {
 app.get('/504', function (req, res) {
   res.writeHead(504, {'Content-Type': 'text/plain'});
   res.end();
+});
+
+/**
+ * @swagger
+ * /user/{userId}:
+ *   get:
+ *     description: Get specific user data
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: user_id
+ *         description: UserID to use for login.
+ *         in: path
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: login
+ *         examples:
+ *           user:
+ *              user_id: 334857
+ *              user_name: Naruki Miyachi
+ */
+
+app.get('/user/:userId', function(req, res) {
+  res.json({"user_id": 334857, "user_name": "Naruki Miyachi"});
+});
+
+app.get('/api-docs.json', function(req, res){
+  res.setHeader('Content-Type','application/json');
+  res.send(swaggerSpec);
 });
 
 // error handling
