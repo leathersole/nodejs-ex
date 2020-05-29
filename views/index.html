@@ -15,7 +15,7 @@
       const xhr = new XMLHttpRequest();
       const url = 'https://corstest-2445581953914.staging.gw.apicast.io:443/?user_key=3fdd26be38c2e9abaaa2f095b67c7577';
       xhr.open('GET', url);
-      oReq.addEventListener("load", reqListener);
+      xhr.addEventListener("load", reqListener);
       xhr.send();
     });
     function reqListener() {
