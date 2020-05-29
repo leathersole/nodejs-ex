@@ -15,11 +15,11 @@
       const xhr = new XMLHttpRequest();
       const url = 'https://corstest-2445581953914.staging.gw.apicast.io:443/?user_key=3fdd26be38c2e9abaaa2f095b67c7577';
       xhr.open('GET', url);
-      xhr.addEventListener('load', handleEvent);
+      oReq.addEventListener("load", reqListener);
       xhr.send();
     });
-    function handleEvent(e) {
-      log.textContent = log.textContent + `${e.type}: ${e.loaded} bytes transferred\n`;
+    function reqListener() {
+      console.log(this.responseText);
     }
   </script>
 </body>
