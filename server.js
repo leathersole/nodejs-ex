@@ -2,6 +2,7 @@
 var express = require('express'),
     app     = express(),
     morgan  = require('morgan');
+    fs      = require('fs');
     
 Object.assign=require('object-assign')
 
@@ -72,6 +73,32 @@ var initDb = function(callback) {
     console.log('Connected to MongoDB at: %s', mongoURL);
   });
 };
+
+app.get('/jwk-set/jwks.json', function(req,res){
+  res.header("Content-Type", "application/jwk-set+json");
+  fs.readFile(__dirname + "/jwks.json", function (err,data) {
+    if (err) {
+      res.writeHead(404);
+      res.end(JSON.stringify(err));
+      return;
+    }
+    res.writeHead(200);
+    res.end(data);
+  });
+})
+
+app.get('/json/jwks.json', function(req,res){
+  res.header("Content-Type", "application/json");
+  fs.readFile(__dirname + "/jwks.json", function (err,data) {
+    if (err) {
+      res.writeHead(404);
+      res.end(JSON.stringify(err));
+      return;
+    }
+    res.writeHead(200);
+    res.end(data);
+  });
+})
 
 app.get('/', function (req, res) {
   // try to initialize the db on every request if it's not already
