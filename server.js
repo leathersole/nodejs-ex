@@ -100,6 +100,19 @@ app.get('/json/jwks.json', function(req,res){
   });
 })
 
+app.get('/text/jwks.json', function(req,res){
+  res.header("Content-Type", "text/plain");
+  fs.readFile(__dirname + "/jwks.json", function (err,data) {
+    if (err) {
+      res.writeHead(404);
+      res.end(JSON.stringify(err));
+      return;
+    }
+    res.writeHead(200);
+    res.end(data);
+  });
+})
+
 app.get('/', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
